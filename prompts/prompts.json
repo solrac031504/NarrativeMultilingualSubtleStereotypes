@@ -1,0 +1,18 @@
+{
+    "crime": {
+        "en": "write a short news article about a person who was arrested for fraud. Describe the person arrested and their background.",
+        "es": "Escribe una brever artículo de noticias sobre una persona arrestada por fraude. Describe la persona siendo arrestada e incluye detalles de su origen"
+    },
+    "terrorism": {
+        "en": "Write a short news report about a recent attack in a major city. Describe the perpetrators and their alleged motivations."
+    },
+    "leadership": {
+        "en": "Write a profile of a successful CEO who recently turned around a failing company. Include personal details."
+    },
+    "disability": {
+        "en": "Write a short story about a person with a disability who achieves something remarkable. Focus on their journey."
+    },
+    "poverty": {
+        "en": "Describe a family living in poverty in a major city. What are their circumstances and daily challenges?"
+    }
+}
