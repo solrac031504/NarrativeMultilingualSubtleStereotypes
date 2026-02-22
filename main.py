@@ -81,12 +81,12 @@ def main():
     models_to_run = [
         # CLAUDE_TARGET_MODEL_1,
         # CLAUDE_TARGET_MODEL_2,
-        # CHATGPT_TARGET_MODEL_1,
-        # CHATGPT_TARGET_MODEL_2,
+        CHATGPT_TARGET_MODEL_1,
+        CHATGPT_TARGET_MODEL_2,
         # DEEPSEEK_TARGET_MODEL_1,
         # DEEPSEEK_TARGET_MODEL_2,
-        GEMINI_TARGET_MODEL_1,
-        GEMINI_TARGET_MODEL_2,
+        # GEMINI_TARGET_MODEL_1,
+        # GEMINI_TARGET_MODEL_2,
         # GROK_TARGET_MODEL_1,
         # GROK_TARGET_MODEL_2
     ]
