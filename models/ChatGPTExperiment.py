@@ -77,7 +77,7 @@ class ChatGPTExperiment:
       print(f"[CHATGPT API ERROR] {sample_index}: {e}")
       return ""
 
-  def classify_response(self, text: str) -> tuple[list[str], dict, dict, str, bool]:
+  def classify_response(self, text: str) -> tuple[list[str], dict, dict, str, bool, str]:
     """Use the classifier model to annotate group mentions, roles, and sentiment."""
     try:
       message = self.client.responses.create(
@@ -107,8 +107,9 @@ class ChatGPTExperiment:
           parsed.get("roles", {}),
           parsed.get("sentiment", {}),
           parsed.get("notes", ""),
-          parsed.get("is_refusal", False)
+          parsed.get("is_refusal", False),
+          raw
       )
     except (json.JSONDecodeError, openai.APIError, KeyError) as e:
       print(f"[CLASSIFIER ERROR]: {e}")
-      return [], {}, {}, ""
+      return [], {}, {}, "", False, ""

@@ -15,9 +15,12 @@ from utilities.Tee import Tee
 # Model imports
 from models.ChatGPTExperiment import ChatGPTExperiment
 from models.ClaudeExperiment import ClaudeExperiment
+from models.DeepSeekExperiment import DeepSeekExperiment
+from models.GeminiExperiment import GeminiExperiment
+from models.GrokExperiment import GrokExperiment
 
 def run_experiments(
-      model: ClaudeExperiment | ChatGPTExperiment,
+      model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment,
 
       log_dir: str,
       log_filename: str,
@@ -77,9 +80,9 @@ def run_experiments(
             response_text = model.generate_response(prompt, i)
 
             # Step 2: Classify
-            groups, roles, sentiment, notes, is_refusal = ([], {}, {}, "", False)
+            groups, roles, sentiment, notes, is_refusal, raw = ([], {}, {}, "", False, "")
             if response_text:
-              groups, roles, sentiment, notes, is_refusal = model.classify_response(response_text)
+              groups, roles, sentiment, notes, is_refusal, raw = model.classify_response(response_text)
 
             annotated = AnnotatedResponse(
                 scenario=scenario,
@@ -90,7 +93,8 @@ def run_experiments(
                 roles=roles,
                 sentiment=sentiment,
                 notes=notes,
-                refusal=is_refusal
+                refusal=is_refusal,
+                classifier_raw=raw
             )
             results.append(annotated)
             print(f"[EXPERIMENT] Groups found: {groups or 'none'} | Refusal: {is_refusal}")
@@ -207,7 +211,7 @@ def save_results(
     stats: dict,
     output_dir: str,
     filename: str,
-    model: ClaudeExperiment | ChatGPTExperiment,
+    model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment,
     indent: int = 2
 ):
   """
