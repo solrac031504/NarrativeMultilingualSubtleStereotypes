@@ -37,6 +37,21 @@ class ClaudeExperiment:
         api_key=self.api_key
     )
 
+  def __str__(self):
+    return f"""
+    ============================== Claude Experiment ==============================
+    Target Model: {self.target_model}
+    Target Model Temperature: {self.target_model_temperature}
+    Target Model Max Tokens: {self.target_model_max_tokens}
+    Samples per prompt: {self.samples_per_prompt}
+
+    Classifier Model: {self.classifier_model}
+    Classifier Temperature: {self.classifier_temperature}
+    Classifier Max Tokens: {self.classifier_max_tokens}
+    Classifier System: {self.classifier_system}
+    ===============================================================================
+    """
+
   def generate_response(self, prompt: str, sample_index: int) -> str:
     """Generate a single response from the target model"""
     try:
