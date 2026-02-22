@@ -1,5 +1,5 @@
 import json
-import openai
+from openai import OpenAI, APIError
 
 class DeepSeekExperiment:
   def __init__(
@@ -35,7 +35,7 @@ class DeepSeekExperiment:
     self.classifier_max_tokens = classifier_max_tokens
     self.classifier_system = classifier_system
 
-    self.client = openai.OpenAI(
+    self.client = OpenAI(
         api_key = self.api_key,
         base_url="https://api.deepseek.com"
     )
@@ -77,7 +77,7 @@ class DeepSeekExperiment:
       text = message.choices[0].message.content
 
       return text
-    except openai.APIError as e:
+    except APIError as e:
       print(f"[DEEPSEEK API ERROR] {sample_index}: {e}")
       return ""
 
@@ -117,6 +117,6 @@ class DeepSeekExperiment:
           parsed.get("is_refusal", False),
           raw
       )
-    except (json.JSONDecodeError, openai.APIError, KeyError) as e:
+    except (json.JSONDecodeError, APIError, KeyError) as e:
       print(f"[CLASSIFIER ERROR]: {e}")
       return [], {}, {}, "", False, ""

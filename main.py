@@ -19,7 +19,7 @@ def main():
     TEMPERATURE = 1.0 # similar to regular use
     CLASSIFIER_TEMPERATURE = 0.0 # 0 for reproducibility
     TARGET_MAX_TOKENS = 1024
-    CLASSIFIER_MAX_TOKENS = 500
+    CLASSIFIER_MAX_TOKENS = 1024
 
     LOG_DIR = "logs"
     OUTPUT_DIR = "outputs"
@@ -54,6 +54,10 @@ def main():
     DEEPSEEK_TARGET_MODEL_2 = "deepseek-chat"
     DEEPSEEK_CLASSIFIER = "deepseek-chat"
 
+    GEMINI_TARGET_MODEL_1 = "gemini-2.5-flash"
+    GEMINI_TARGET_MODEL_2 = "gemini-3-flash-preview"
+    GEMINI_CLASSIFIER = "gemini-2.5-flash"
+
     # Api Keys
     load_dotenv(os.path.join(os.getcwd(), '.env'))
 
@@ -75,7 +79,9 @@ def main():
         # CHATGPT_TARGET_MODEL_1,
         # CHATGPT_TARGET_MODEL_2,
         # DEEPSEEK_TARGET_MODEL_1,
-        DEEPSEEK_TARGET_MODEL_2,
+        # DEEPSEEK_TARGET_MODEL_2,
+        # GEMINI_TARGET_MODEL_1,
+        GEMINI_TARGET_MODEL_2,
     ]
 
     target_scenarios = ["leadership"]
@@ -291,6 +297,80 @@ def main():
 
         run_experiments(
             model=deepseek_2,
+
+            log_dir=LOG_DIR,
+            log_filename=filename,
+
+            output_dir=OUTPUT_DIR,
+            output_filename=filename,
+
+            scenarios=target_scenarios,
+            languages=target_languages
+        )
+    ###########################################################################################################
+
+    ############################################ GEMINI 2.5 ############################################
+    if GEMINI_TARGET_MODEL_1 in models_to_run:
+        gemini_1 = GeminiExperiment(
+            scenario_prompts=dataset,
+
+            api_key=GEMINI_API_KEY,
+
+            target_model=GEMINI_TARGET_MODEL_1,
+            samples_per_prompt=SAMPLES_PER_PROMPT,
+            target_model_temperature=TEMPERATURE,
+            target_model_max_tokens=TARGET_MAX_TOKENS,
+            system_prompt=SYSTEM_PROMPT,
+
+            classifier_model=GEMINI_CLASSIFIER,
+            classifier_temperature=CLASSIFIER_TEMPERATURE,
+            classifier_max_tokens=CLASSIFIER_MAX_TOKENS,
+            classifier_system=CLASSIFIER_SYSTEM
+        )
+
+        tstamp: str = datetime.now().strftime("%Y%m%d%H%M%S")
+
+        filename = f"Gemini2-5_{tstamp}"
+
+        run_experiments(
+            model=gemini_1,
+
+            log_dir=LOG_DIR,
+            log_filename=filename,
+
+            output_dir=OUTPUT_DIR,
+            output_filename=filename,
+
+            scenarios=target_scenarios,
+            languages=target_languages
+        )
+    ###########################################################################################################
+
+    ############################################ GEMINI 3 FLASH ############################################
+    if GEMINI_TARGET_MODEL_2 in models_to_run:
+        gemini_2 = GeminiExperiment(
+            scenario_prompts=dataset,
+
+            api_key=GEMINI_API_KEY,
+
+            target_model=GEMINI_TARGET_MODEL_2,
+            samples_per_prompt=SAMPLES_PER_PROMPT,
+            target_model_temperature=TEMPERATURE,
+            target_model_max_tokens=TARGET_MAX_TOKENS,
+            system_prompt=SYSTEM_PROMPT,
+
+            classifier_model=GEMINI_CLASSIFIER,
+            classifier_temperature=CLASSIFIER_TEMPERATURE,
+            classifier_max_tokens=CLASSIFIER_MAX_TOKENS,
+            classifier_system=CLASSIFIER_SYSTEM
+        )
+
+        tstamp: str = datetime.now().strftime("%Y%m%d%H%M%S")
+
+        filename = f"Gemini-3-Flash_{tstamp}"
+
+        run_experiments(
+            model=gemini_2,
 
             log_dir=LOG_DIR,
             log_filename=filename,
