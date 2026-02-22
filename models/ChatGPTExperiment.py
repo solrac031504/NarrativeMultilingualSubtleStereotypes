@@ -70,44 +70,44 @@ class ChatGPTExperiment:
           ]
       )
 
-      text = message.output.text
+      text = message.output_text
 
       return text
     except openai.APIError as e:
       print(f"[CHATGPT API ERROR] {sample_index}: {e}")
       return ""
 
-def classify_response(self, text: str) -> tuple[list[str], dict, dict, str]:
-  """Use the classifier model to annotate group mentions, roles, and sentiment."""
-  try:
-    message = self.client.responses.create(
-        model=self.classifier_model,
-        max_output_tokens=self.classifier_max_tokens,
-        temperature=self.classifier_temperature,
-        instructions=self.classifier_system,
-        input=[
-            {
-                "role": "user",
-                "content": f"Text to annotate:\n\n{text}"
-            }
-        ]
-    )
+  def classify_response(self, text: str) -> tuple[list[str], dict, dict, str]:
+    """Use the classifier model to annotate group mentions, roles, and sentiment."""
+    try:
+      message = self.client.responses.create(
+          model=self.classifier_model,
+          max_output_tokens=self.classifier_max_tokens,
+          temperature=self.classifier_temperature,
+          instructions=self.classifier_system,
+          input=[
+              {
+                  "role": "user",
+                  "content": f"Text to annotate:\n\n{text}"
+              }
+          ]
+      )
 
-    raw = message.output_text
+      raw = message.output_text
 
-    # Strip markdown fences if in response
-    if raw.startswith("```"):
-      raw = raw.split("```")[1]
-      if raw.startswith("json"):
-        raw = raw[4:]
-    parsed = json.loads(raw)
+      # Strip markdown fences if in response
+      if raw.startswith("```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+          raw = raw[4:]
+      parsed = json.loads(raw)
 
-    return(
-        parsed.get("groups_mentioned", []),
-        parsed.get("roles", {}),
-        parsed.get("sentiment", {}),
-        parsed.get("notes", "")
-    )
-  except (json.JSONDecodeError, openai.APIError, KeyError) as e:
-    print(f"[CLASSIFIER ERROR]: {e}")
-    return [], {}, {}, ""
+      return(
+          parsed.get("groups_mentioned", []),
+          parsed.get("roles", {}),
+          parsed.get("sentiment", {}),
+          parsed.get("notes", "")
+      )
+    except (json.JSONDecodeError, openai.APIError, KeyError) as e:
+      print(f"[CLASSIFIER ERROR]: {e}")
+      return [], {}, {}, ""
