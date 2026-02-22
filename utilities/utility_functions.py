@@ -20,7 +20,7 @@ from models.GeminiExperiment import GeminiExperiment
 from models.GrokExperiment import GrokExperiment
 
 def run_experiments(
-      model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment,
+      model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment,
 
       log_dir: str,
       log_filename: str,
@@ -93,7 +93,7 @@ def run_experiments(
                 roles=roles,
                 sentiment=sentiment,
                 notes=notes,
-                refusal=is_refusal,
+                is_refusal=is_refusal,
                 classifier_raw=raw
             )
             results.append(annotated)
@@ -155,7 +155,7 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
   for r in results:
     cell = stats[r.scenario][r.language]
     cell["total_samples"] += 1
-    if r.refusal:
+    if r.is_refusal:
       cell["refusal_count"] += 1
 
     for group in r.groups_mentioned:
@@ -211,7 +211,7 @@ def save_results(
     stats: dict,
     output_dir: str,
     filename: str,
-    model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment,
+    model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment,
     indent: int = 2
 ):
   """

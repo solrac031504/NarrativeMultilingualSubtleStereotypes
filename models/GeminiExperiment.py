@@ -89,11 +89,7 @@ class GeminiExperiment:
         contents=text
       )
 
-      print(f"[FINISH REASON] {message.candidates[0].finish_reason}")
-
       raw = message.text
-
-      print(f"[CLASSIFIER RAW] {repr(raw)}")
 
       parsed = json.loads(raw)
 
