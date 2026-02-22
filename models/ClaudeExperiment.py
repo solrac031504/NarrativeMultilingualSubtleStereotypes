@@ -13,6 +13,7 @@ class ClaudeExperiment:
       samples_per_prompt: int,
       target_model_temperature: int,
       target_model_max_tokens: int,
+      system_prompt: str,
 
       classifier_model: str,
       classifier_temperature: int,
@@ -27,6 +28,7 @@ class ClaudeExperiment:
     self.samples_per_prompt = samples_per_prompt
     self.target_model_temperature = target_model_temperature
     self.target_model_max_tokens = target_model_max_tokens
+    self.system_prompt = system_prompt
 
     self.classifier_model = classifier_model
     self.classifier_temperature = classifier_temperature
@@ -59,6 +61,7 @@ class ClaudeExperiment:
           model=self.target_model,
           max_tokens=self.target_model_max_tokens,
           temperature=self.target_model_temperature,
+          system=self.system_prompt,
           messages=[
               {
                 "role": "user", 

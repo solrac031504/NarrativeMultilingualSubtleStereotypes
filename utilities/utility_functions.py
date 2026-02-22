@@ -50,7 +50,7 @@ def run_experiments(
       log_path = os.path.join(log_dir, log_filename)
       tee = Tee(log_path)
       sys.stdout = tee
-      print(f"[LOG] Session started: {datetime.now().strftime('%m/%d/%Y %H/%M/%S')}")
+      print(f"[LOG] Session started: {datetime.now().strftime('%m/%d/%Y %H:%M:%S')}")
 
     try:
       print(model)
@@ -93,7 +93,7 @@ def run_experiments(
                 refusal=is_refusal
             )
             results.append(annotated)
-            print(f"Groups found: {groups or 'none'} | Refusal: {is_refusal}")
+            print(f"[EXPERIMENT] Groups found: {groups or 'none'} | Refusal: {is_refusal}")
 
             # Rate limiting
             time.sleep(0.5)
@@ -118,7 +118,7 @@ def run_experiments(
     finally:
       # Always restore stdout
       if tee:
-        print(f"[LOG] Session ended: {datetime.now().strftime('%m/%d/%Y %H/%M/%S')}")
+        print(f"[LOG] Session ended: {datetime.now().strftime('%m/%d/%Y %H:%M:%S')}")
         sys.stdout = tee.terminal
         tee.close()
 
@@ -190,7 +190,7 @@ def print_summary(stats: dict):
   print("="*70)
 
   for scenario, lang_data in stats.items():
-    print(f"\n Scenario: {scenario.upper()}")
+    print(f"Scenario: {scenario.upper()}")
     for lang, data in lang_data.items():
       print(f"Language: {lang}")
       print(f"Samples: {data['total_samples']} | Refusal rate: {data['refusal_rate']:.1%}")
