@@ -58,6 +58,10 @@ def main():
     GEMINI_TARGET_MODEL_2 = "gemini-3-flash-preview"
     GEMINI_CLASSIFIER = "gemini-2.5-flash"
 
+    GROK_TARGET_MODEL_1 = "grok-4-1-fast-non-reasoning"
+    GROK_TARGET_MODEL_2 = "grok-3-mini"
+    GROK_CLASSIFIER = "grok-4-1-fast-reasoning"
+
     # Api Keys
     load_dotenv(os.path.join(os.getcwd(), '.env'))
 
@@ -81,7 +85,9 @@ def main():
         # DEEPSEEK_TARGET_MODEL_1,
         # DEEPSEEK_TARGET_MODEL_2,
         # GEMINI_TARGET_MODEL_1,
-        GEMINI_TARGET_MODEL_2,
+        # GEMINI_TARGET_MODEL_2,
+        # GROK_TARGET_MODEL_1,
+        GROK_TARGET_MODEL_2
     ]
 
     target_scenarios = ["leadership"]
@@ -371,6 +377,80 @@ def main():
 
         run_experiments(
             model=gemini_2,
+
+            log_dir=LOG_DIR,
+            log_filename=filename,
+
+            output_dir=OUTPUT_DIR,
+            output_filename=filename,
+
+            scenarios=target_scenarios,
+            languages=target_languages
+        )
+    ###########################################################################################################
+
+    ############################################ GROK 4-1 FAST NON-REASONING ############################################
+    if GROK_TARGET_MODEL_1 in models_to_run:
+        grok_1 = GrokExperiment(
+            scenario_prompts=dataset,
+
+            api_key=GROK_API_KEY,
+
+            target_model=GROK_TARGET_MODEL_1,
+            samples_per_prompt=SAMPLES_PER_PROMPT,
+            target_model_temperature=TEMPERATURE,
+            target_model_max_tokens=TARGET_MAX_TOKENS,
+            system_prompt=SYSTEM_PROMPT,
+
+            classifier_model=GROK_CLASSIFIER,
+            classifier_temperature=CLASSIFIER_TEMPERATURE,
+            classifier_max_tokens=CLASSIFIER_MAX_TOKENS,
+            classifier_system=CLASSIFIER_SYSTEM
+        )
+
+        tstamp: str = datetime.now().strftime("%Y%m%d%H%M%S")
+
+        filename = f"Grok4-1_NonReasoning_{tstamp}"
+
+        run_experiments(
+            model=grok_1,
+
+            log_dir=LOG_DIR,
+            log_filename=filename,
+
+            output_dir=OUTPUT_DIR,
+            output_filename=filename,
+
+            scenarios=target_scenarios,
+            languages=target_languages
+        )
+    ###########################################################################################################
+
+    ############################################ GROK 3 MINI ############################################
+    if GROK_TARGET_MODEL_2 in models_to_run:
+        grok_2 = GrokExperiment(
+            scenario_prompts=dataset,
+
+            api_key=GROK_API_KEY,
+
+            target_model=GROK_TARGET_MODEL_2,
+            samples_per_prompt=SAMPLES_PER_PROMPT,
+            target_model_temperature=TEMPERATURE,
+            target_model_max_tokens=TARGET_MAX_TOKENS,
+            system_prompt=SYSTEM_PROMPT,
+
+            classifier_model=GROK_CLASSIFIER,
+            classifier_temperature=CLASSIFIER_TEMPERATURE,
+            classifier_max_tokens=CLASSIFIER_MAX_TOKENS,
+            classifier_system=CLASSIFIER_SYSTEM
+        )
+
+        tstamp: str = datetime.now().strftime("%Y%m%d%H%M%S")
+
+        filename = f"Grok4-1_NonReasoning_{tstamp}"
+
+        run_experiments(
+            model=grok_2,
 
             log_dir=LOG_DIR,
             log_filename=filename,

@@ -68,7 +68,7 @@ class GrokExperiment:
       chat.append(system(self.system_prompt))
       chat.append(user(prompt))
 
-      text = chat.sample()
+      text = (chat.sample()).content
 
       return text
     except Exception as e:
@@ -88,7 +88,7 @@ class GrokExperiment:
       chat.append(system(self.classifier_system))
       chat.append(user(f"Text to annotate:\n\n{text}"))
 
-      raw = chat.sample()
+      raw = (chat.sample()).content
 
       # Strip markdown fences if in response
       if raw.startswith("```"):
