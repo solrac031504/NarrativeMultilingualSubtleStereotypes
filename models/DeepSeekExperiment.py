@@ -11,7 +11,7 @@ class DeepSeekExperiment(BaseExperiment):
             base_url="https://api.deepseek.com"
           )
     
-    def _call_model(self, model, system, user_content, temperature, max_tokens) -> str:
+    def _call_model(self, model, system_prompt, user_content, temperature, max_tokens) -> str:
         message = self.client.chat.completions.create(
             model=model,
             max_tokens=max_tokens,
@@ -19,7 +19,7 @@ class DeepSeekExperiment(BaseExperiment):
             messages=[
                 {
                     "role": "system",
-                    "content": system
+                    "content": system_prompt
                 },
                 {
                     "role": "user",

@@ -63,7 +63,7 @@ class BaseExperiment(ABC):
     def _call_model(
         self,
         model: str,
-        system: str,
+        system_prompt: str,
         user_content: str,
         temperature: float,
         max_tokens: int
@@ -74,7 +74,7 @@ class BaseExperiment(ABC):
         try:
             return self._call_model(
                 model=self.target_model,
-                system=self.system_prompt,
+                system_prompt=self.system_prompt,
                 user_content=prompt,
                 temperature=self.target_model_temperature,
                 max_tokens=self.target_model_max_tokens
@@ -87,7 +87,7 @@ class BaseExperiment(ABC):
         try:
             raw = self._call_model(
                 model=self.classifier_model,
-                system=self.classifier_system,
+                system_prompt=self.classifier_system,
                 user_content=f"Text to annotate:\n\n{text}",
                 temperature=self.classifier_temperature,
                 max_tokens=self.classifier_max_tokens

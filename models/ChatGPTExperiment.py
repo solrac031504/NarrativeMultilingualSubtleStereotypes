@@ -8,12 +8,12 @@ class ChatGPTExperiment(BaseExperiment):
     def _build_client(self):
         return OpenAI(api_key=self.api_key)
     
-    def _call_model(self, model, system, user_content, temperature, max_tokens) -> str:
+    def _call_model(self, model, system_prompt, user_content, temperature, max_tokens) -> str:
         message = self.client.responses.create(
             model=model,
             max_output_tokens=max_tokens,
             temperature=temperature,
-            instructions=system,
+            instructions=system_prompt,
             input=[
                 {
                     "role": "user",

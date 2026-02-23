@@ -125,7 +125,7 @@ def main():
                 languages=target_languages
             )
         except Exception as e:
-            print(f"[EXPERIMENT] Exception: {e}")
+            print(f"[EXPERIMENT] Exception: {e}\nContinuing with next model...")
             continue
     
 if __name__ == "__main__":
