@@ -1,122 +1,30 @@
-import json
-from openai import OpenAI, APIError
+from openai import OpenAI
+from models.BaseExperiment import BaseExperiment
 
-class DeepSeekExperiment:
-  def __init__(
-      self,
-
-      scenario_prompts: dict[str, dict[str, str]],
-
-      api_key: str,
-
-      target_model: str,
-      samples_per_prompt: int,
-      target_model_temperature: int,
-      target_model_max_tokens: int,
-      system_prompt: str,
-
-      classifier_model: str,
-      classifier_temperature: int,
-      classifier_max_tokens: int,
-      classifier_system: str
-  ):
-    self.scenario_prompts = scenario_prompts
-
-    self.api_key = api_key
-
-    self.target_model = target_model
-    self.samples_per_prompt = samples_per_prompt
-    self.target_model_temperature = target_model_temperature
-    self.target_model_max_tokens = target_model_max_tokens
-    self.system_prompt = system_prompt
-
-    self.classifier_model = classifier_model
-    self.classifier_temperature = classifier_temperature
-    self.classifier_max_tokens = classifier_max_tokens
-    self.classifier_system = classifier_system
-
-    self.client = OpenAI(
-        api_key = self.api_key,
-        base_url="https://api.deepseek.com"
-    )
-
-  def __str__(self):
-    return f"""
-    ============================== DeepSeek Experiment ==============================
-    Target Model: {self.target_model}
-    Target Model Temperature: {self.target_model_temperature}
-    Target Model Max Tokens: {self.target_model_max_tokens}
-    Samples per prompt: {self.samples_per_prompt}
-
-    Classifier Model: {self.classifier_model}
-    Classifier Temperature: {self.classifier_temperature}
-    Classifier Max Tokens: {self.classifier_max_tokens}
-    Classifier System: {self.classifier_system}
-    ===============================================================================
-    """
-
-  def generate_response(self, prompt: str, sample_index: int) -> str:
-    """Generate a single response from the target model"""
-    try:
-      message = self.client.chat.completions.create(
-          model=self.target_model,
-          max_tokens=self.target_model_max_tokens,
-          temperature=self.target_model_temperature,
-          messages=[
-            {
-              "role": "system",
-              "content": self.system_prompt
-            },
-            {
-              "role": "user",
-              "content": prompt
-            }
-          ]
-      )
-
-      text = message.choices[0].message.content
-
-      return text
-    except APIError as e:
-      print(f"[DEEPSEEK API ERROR] {sample_index}: {e}")
-      return ""
-
-  def classify_response(self, text: str) -> tuple[list[str], dict, dict, str, bool, str]:
-    """Use the classifier model to annotate group mentions, roles, and sentiment."""
-    try:
-      message = self.client.chat.completions.create(
-          model=self.classifier_model,
-          max_tokens=self.classifier_max_tokens,
-          temperature=self.classifier_temperature,
-          messages=[
-            {
-              "role": "system",
-              "content": self.classifier_system
-            },
-            {
-              "role": "user",
-              "content": f"Text to annotate:\n\n{text}"
-            }
-          ]
-      )
-
-      raw = message.choices[0].message.content
-
-      # Strip markdown fences if in response
-      if raw.startswith("```"):
-        raw = raw.split("```")[1]
-        if raw.startswith("json"):
-          raw = raw[4:]
-      parsed = json.loads(raw)
-
-      return(
-          parsed.get("groups_mentioned", []),
-          parsed.get("roles", {}),
-          parsed.get("sentiment", {}),
-          parsed.get("notes", ""),
-          parsed.get("is_refusal", False),
-          raw
-      )
-    except (json.JSONDecodeError, APIError, KeyError) as e:
-      print(f"[CLASSIFIER ERROR]: {e}")
-      return [], {}, {}, "", False, ""
+class DeepSeekExperiment(BaseExperiment):
+    def _provider_name(self):
+        return "DeepSeek"
+    
+    def _build_client(self):
+        return OpenAI(
+            api_key=self.api_key, 
+            base_url="https://api.deepseek.com"
+          )
+    
+    def _call_model(self, model, system, user_content, temperature, max_tokens) -> str:
+        message = self.client.chat.completions.create(
+            model=model,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            messages=[
+                {
+                    "role": "system",
+                    "content": system
+                },
+                {
+                    "role": "user",
+                    "content": user_content
+                }
+            ]
+        )
+        return message.choices[0].message.content
