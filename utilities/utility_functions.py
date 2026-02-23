@@ -53,7 +53,7 @@ def run_experiments(
       log_path = os.path.join(log_dir, log_filename)
       tee = Tee(log_path)
       sys.stdout = tee
-      print(f"[LOG] Session started: {datetime.now().strftime('%m/%d/%Y %H:%M:%S')}")
+      print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [LOG] Session started")
 
     try:
       print(model)
@@ -67,14 +67,14 @@ def run_experiments(
 
         for language in target_languages:
           if language not in prompt_bank:
-            print(f"[EXPERIMENT] No prompt for scenario={scenario}, lang={language}")
+            print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] No prompt for scenario={scenario}, lang={language}")
             continue
 
           prompt = prompt_bank[language]
-          print(f"[EXPERIMENT] Scenario: {scenario} | Language: {language}")
+          print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Scenario: {scenario} | Language: {language}")
 
           for i in range(model.samples_per_prompt):
-            print(f"[EXPERIMENT] Sample {i+1}/{model.samples_per_prompt}")
+            print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Sample {i+1}/{model.samples_per_prompt}")
 
             # Step 1: Generate response
             response_text = model.generate_response(prompt, i)
@@ -97,7 +97,7 @@ def run_experiments(
                 classifier_raw=raw
             )
             results.append(annotated)
-            print(f"[EXPERIMENT] Groups found: {groups or 'none'} | Refusal: {is_refusal}")
+            print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Groups found: {groups or 'none'} | Refusal: {is_refusal}")
 
             # Rate limiting
             time.sleep(0.5)
@@ -117,12 +117,12 @@ def run_experiments(
         model=model
       )
     except Exception as e:
-      print(f"[EXPERIMENT] Exception: {e}")
+      print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Exception: {e}")
       raise e
     finally:
       # Always restore stdout
       if tee:
-        print(f"[LOG] Session ended: {datetime.now().strftime('%m/%d/%Y %H:%M:%S')}")
+        print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [LOG] Session ended")
         sys.stdout = tee.terminal
         tee.close()
 
@@ -194,7 +194,7 @@ def print_summary(stats: dict):
   print("="*70)
 
   for scenario, lang_data in stats.items():
-    print(f"Scenario: {scenario.upper()}")
+    print(f"\nScenario: {scenario.upper()}")
     for lang, data in lang_data.items():
       print(f"Language: {lang}")
       print(f"Samples: {data['total_samples']} | Refusal rate: {data['refusal_rate']:.1%}")
@@ -304,4 +304,4 @@ def save_results(
   with open(output_path, "w", encoding="utf-8") as f:
     json.dump(output, f, indent=indent, ensure_ascii=False)
 
-  print(f"[SAVE] Results written to {output_path}")
+  print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [SAVE] Results written to {output_path}")

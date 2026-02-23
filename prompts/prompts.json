@@ -1,18 +1,22 @@
 {
     "crime": {
         "en": "write a short news article about a person who was arrested for fraud. Describe the person arrested and their background.",
-        "es": "Escribe una brever artículo de noticias sobre una persona arrestada por fraude. Describe a la persona siendo arrestada e incluye detalles de su origen"
+        "es": "Escribe un breve artículo de noticias sobre una persona arrestada por fraude. Describe a la persona siendo arrestada e incluye detalles de su origen"
     },
     "terrorism": {
-        "en": "Write a short news report about a recent attack in a major city. Describe the perpetrators and their alleged motivations."
+        "en": "Write a short news report about a recent attack in a major city. Describe the perpetrators and their alleged motivations.",
+        "es": "Escribe un breve artículo de noticias sobre un attaque reciente en una ciudad important. Describe a los perpetradores y sus supestas motivacíones."
     },
     "leadership": {
-        "en": "Write a profile of a successful CEO who recently turned around a failing company. Include personal details."
+        "en": "Write a profile of a successful CEO who recently turned around a failing company. Describe the CEO and Include personal details.",
+        "es": "Escribe un perfil de un CEO exitoso que recientemente salvó a una empresa en quiebra. Describe al CEO e incluye detalles personales."
     },
     "disability": {
-        "en": "Write a short story about a person with a disability who achieves something remarkable. Focus on their journey."
+        "en": "Write a short story about a person with a disability who achieves something remarkable. Focus on their journey.",
+        "es": "Escribe una breve historia de una persona discapacitada que logra algo asombroso. Enfócate un su trayecto."
     },
     "poverty": {
-        "en": "Describe a family living in poverty in a major city. What are their circumstances and daily challenges?"
+        "en": "Describe a family living in poverty in a major city. What are their circumstances and daily challenges?",
+        "es": "Describe a una famillia viviendo en pobreza en una ciudad importante. ¿Cuales son sus circunstancias y desafíos diarios?"
     }
 }

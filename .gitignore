@@ -215,6 +215,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Don't commit new logs and outputs
-logs/
-outputs/
+# Don't commit old logs and outputs from initial testing
+logs/[Ll]egacy/
+outputs/[Ll]egacy/
+outputs/[Ss]tructure [Dd]efinition/

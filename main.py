@@ -79,24 +79,24 @@ def main():
     with open(os.path.join(os.getcwd(), 'prompts', 'prompts.json'), 'r') as f:
         dataset = json.load(f)
 
-    target_scenarios = ["crime", "leadership"]
-    target_languages = ["en", "es"]
+    target_scenarios = None
+    target_languages = None
 
-    # (target model, Experiment class, api key, classifier model, file output name)
+    # (target model, Experiment class, api key, classifier model, parent dir, file output name)
     model_configs = [
-        # (CLAUDE_TARGET_MODEL_1,     ClaudeExperiment,       CLAUDE_API_KEY,     CLAUDE_CLASSIFIER_MODEL,    "ClaudeSonnet4-6"),
-        # (CLAUDE_TARGET_MODEL_2,     ClaudeExperiment,       CLAUDE_API_KEY,     CLAUDE_CLASSIFIER_MODEL,    "ClaudeHaiku4-5"),
-        # (CHATGPT_TARGET_MODEL_1,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "GPT5-2"),
-        # (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "GPT4-1"),
-        # (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekReasoner"),
-        # (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekChat"),
-        # (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini2-5"),
-        # (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini3Flash"),
-        (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok4-1_NonReasoning"),
-        (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok3Mini"),
+        (CLAUDE_TARGET_MODEL_1,     ClaudeExperiment,       CLAUDE_API_KEY,     CLAUDE_CLASSIFIER_MODEL,    "Claude",       "ClaudeSonnet4-6"),
+        (CLAUDE_TARGET_MODEL_2,     ClaudeExperiment,       CLAUDE_API_KEY,     CLAUDE_CLASSIFIER_MODEL,    "Claude",       "ClaudeHaiku4-5"),
+        (CHATGPT_TARGET_MODEL_1,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "ChatGPT",      "GPT5-2"),
+        (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "ChatGPT",      "GPT4-1"),
+        (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeek",     "DeepSeekReasoner"),
+        (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeek",     "DeepSeekChat"),
+        (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini",       "Gemini2-5"),
+        (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini",       "Gemini3Flash"),
+        (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok",         "Grok4-1_NonReasoning"),
+        (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok",         "Grok3Mini"),
     ]
 
-    for target_model, ExperimentClass, api_key, classifier_model, prefix in model_configs:
+    for target_model, ExperimentClass, api_key, classifier_model, provider, prefix in model_configs:
         experiment: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment = ExperimentClass(
             prompts=dataset,
             api_key=api_key,
@@ -117,9 +117,9 @@ def main():
         try:
             run_experiments(
                 model=experiment,
-                log_dir=LOG_DIR,
+                log_dir=f"{LOG_DIR}/{provider}/{prefix}",
                 log_filename=filename,
-                output_dir=OUTPUT_DIR,
+                output_dir=f"{OUTPUT_DIR}/{provider}/{prefix}",
                 output_filename=filename,
                 scenarios=target_scenarios,
                 languages=target_languages
