@@ -90,10 +90,10 @@ def main():
         # (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "GPT4-1"),
         # (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekReasoner"),
         # (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekChat"),
-        (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini2-5"),
-        (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini3Flash"),
-        # (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok4-1_NonReasoning"),
-        # (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok3Mini"),
+        # (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini2-5"),
+        # (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini3Flash"),
+        (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok4-1_NonReasoning"),
+        (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok3Mini"),
     ]
 
     for target_model, ExperimentClass, api_key, classifier_model, prefix in model_configs:
