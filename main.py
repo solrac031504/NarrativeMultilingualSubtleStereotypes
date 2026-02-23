@@ -88,10 +88,10 @@ def main():
         # (CLAUDE_TARGET_MODEL_2,     ClaudeExperiment,       CLAUDE_API_KEY,     CLAUDE_CLASSIFIER_MODEL,    "ClaudeHaiku4-5"),
         # (CHATGPT_TARGET_MODEL_1,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "GPT5-2"),
         # (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "GPT4-1"),
-        (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekReasoner"),
-        (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekChat"),
-        # (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini2-5"),
-        # (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini3Flash"),
+        # (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekReasoner"),
+        # (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeekChat"),
+        (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini2-5"),
+        (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini3Flash"),
         # (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok4-1_NonReasoning"),
         # (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok3Mini"),
     ]
@@ -114,15 +114,19 @@ def main():
 
         filename = f"{prefix}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
 
-        run_experiments(
-            model=experiment,
-            log_dir=LOG_DIR,
-            log_filename=filename,
-            output_dir=OUTPUT_DIR,
-            output_filename=filename,
-            scenarios=target_scenarios,
-            languages=target_languages
-        )
+        try:
+            run_experiments(
+                model=experiment,
+                log_dir=LOG_DIR,
+                log_filename=filename,
+                output_dir=OUTPUT_DIR,
+                output_filename=filename,
+                scenarios=target_scenarios,
+                languages=target_languages
+            )
+        except Exception as e:
+            print(f"[EXPERIMENT] Exception: {e}")
+            continue
     
 if __name__ == "__main__":
     main()

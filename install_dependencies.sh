@@ -3,7 +3,7 @@
 # Exit if error
 set -e
 
-ENV_NAME="venv"
+ENV_NAME="NarrativeMultilingualSubtleStereotypes"
 REQUIREMENTS_FILE="requirements.txt"
 
 # Create virtual environment
