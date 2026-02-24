@@ -1,5 +1,6 @@
 import json
 import re
+from datetime import datetime
 from abc import ABC, abstractmethod
 
 class BaseExperiment(ABC):
@@ -80,7 +81,7 @@ class BaseExperiment(ABC):
                 max_tokens=self.target_model_max_tokens
             )
         except Exception as e:
-            print(f"[{self._provider_name().upper()} API ERROR] {sample_index}: {e}")
+            print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [{self._provider_name().upper()} API ERROR] {sample_index}: {e}")
             return ""
         
     def classify_response(self, text: str) -> tuple[list[str], dict, dict, str, bool, str]:
@@ -104,5 +105,5 @@ class BaseExperiment(ABC):
                 raw
             )
         except Exception as e:
-            print(f"[CLASSIFIER ERROR]: {e}")
+            print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [CLASSIFIER ERROR]: {e}")
             return [], {}, {}, "", False, e
