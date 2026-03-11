@@ -10,6 +10,7 @@ class ClassifierResponse:
 
 @dataclass
 class AnnotatedResponse(ClassifierResponse):
+  classifier: str = ""
   scenario: str = ""
   language: str = ""
   sample_index: int = 0

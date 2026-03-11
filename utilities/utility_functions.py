@@ -22,6 +22,8 @@ from models.GrokExperiment import GrokExperiment
 def run_experiments(
       model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment,
 
+      classifiers: list[ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment],
+
       log_dir: str,
       log_filename: str,
 
@@ -36,6 +38,7 @@ def run_experiments(
 
     <INPUTS>
     model: The model class being tested. Instantiated with the model already
+    classifiers: List of classifier models used to analyze responses
     log_dir: Directory to write log/out info
     log_filename: Name of log file being written to
     output_dir: Directory to write final results to
@@ -44,7 +47,7 @@ def run_experiments(
     langauges: subset of langauge codes. Defaults to all available
     """
 
-    # Setup logging if loggin filepath was provided
+    # Setup logging if logging filepath was provided
     tee = None
     if log_dir and log_filename:
       if not log_filename.endswith(".out"):
@@ -79,30 +82,32 @@ def run_experiments(
             # Step 1: Generate response
             response_text = model.generate_response(prompt, i)
 
-            # Step 2: Classify
-            groups, roles, sentiment, notes, is_refusal, raw = ([], {}, {}, "", False, "")
-            if response_text:
-              groups, roles, sentiment, notes, is_refusal, raw = model.classify_response(response_text)
+            # Step 2: Classify with each classifier
+            for classifier in classifiers:
+              groups, roles, sentiment, notes, is_refusal, raw = ([], {}, {}, "", False, "")
+              if response_text:
+                groups, roles, sentiment, notes, is_refusal, raw = classifier.classify_response(response_text)
 
-            annotated = AnnotatedResponse(
-                scenario=scenario,
-                language=language,
-                sample_index=i,
-                raw_response=response_text,
-                groups_mentioned=groups,
-                roles=roles,
-                sentiment=sentiment,
-                notes=notes,
-                is_refusal=is_refusal,
-                classifier_raw=raw
-            )
-            results.append(annotated)
-            print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Groups found: {groups or 'none'} | Refusal: {is_refusal}")
+              annotated = AnnotatedResponse(
+                  classifier=classifier.target_model,
+                  scenario=scenario,
+                  language=language,
+                  sample_index=i,
+                  raw_response=response_text,
+                  groups_mentioned=groups,
+                  roles=roles,
+                  sentiment=sentiment,
+                  notes=notes,
+                  is_refusal=is_refusal,
+                  classifier_raw=raw
+              )
+              results.append(annotated)
+              print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Classifier: {classifier.target_model} | Groups found: {groups or 'none'} | Refusal: {is_refusal}")
 
             # Rate limiting
             time.sleep(0.5)
-      
-      # Compute statistics
+
+      # Compute statistics (aggregated across all classifiers)
       stats = compute_statistics(results)
 
       # Print stats
@@ -114,7 +119,8 @@ def run_experiments(
         stats=stats,
         output_dir=output_dir,
         filename=output_filename,
-        model=model
+        model=model,
+        classifiers=classifiers
       )
     except Exception as e:
       print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Exception: {e}")
@@ -128,7 +134,7 @@ def run_experiments(
 
 def compute_statistics(results: list[AnnotatedResponse]) -> dict:
   """
-  Compute distributional statistics from annotated results.
+  Compute distributional statistics from annotated results, aggregated across all classifiers.
 
   <OUTPUTS>
   Nested dict: {
@@ -152,11 +158,18 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
       "sentiment_counts": defaultdict(lambda: defaultdict(int))
   }))
 
+  # Track unique (scenario, language, sample_index) tuples to count samples once
+  seen_samples: set = set()
+
   for r in results:
     cell = stats[r.scenario][r.language]
-    cell["total_samples"] += 1
-    if r.is_refusal:
-      cell["refusal_count"] += 1
+
+    sample_key = (r.scenario, r.language, r.sample_index)
+    if sample_key not in seen_samples:
+      seen_samples.add(sample_key)
+      cell["total_samples"] += 1
+      if r.is_refusal:
+        cell["refusal_count"] += 1
 
     for group in r.groups_mentioned:
       cell["group_mentions"][group] += 1
@@ -166,11 +179,18 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
       cell["sentiment_counts"][group][sent] += 1
 
   # Compute mention rates
+  # Normalise by (total_samples * number_of_classifiers) so rates reflect per-sample frequency
+  classifier_counts: dict = defaultdict(lambda: defaultdict(set))
+  for r in results:
+    classifier_counts[r.scenario][r.language].add(r.classifier)
+
   output = {}
   for scenario, lang_data in stats.items():
     output[scenario] = {}
     for lang, cell in lang_data.items():
       n = cell["total_samples"]
+      n_classifiers = len(classifier_counts[scenario][lang])
+      normaliser = n * n_classifiers if n_classifiers else n
       output[scenario][lang] = {
           "total_samples": n,
           "refusal_rate": cell["refusal_count"] / n if n else 0,
@@ -179,14 +199,14 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
 
       for group, count in cell["group_mentions"].items():
         output[scenario][lang]["groups"][group] = {
-            "mention_rate": count / n,
+            "mention_rate": count / normaliser,
             "mention_count": count,
             "role_distribution": dict(cell["role_counts"][group]),
             "sentiment_distribution": dict(cell["sentiment_counts"][group])
         }
 
   return output
-  
+
 def print_summary(stats: dict):
   """Nice looking print"""
   print("\n" + "="*70)
@@ -205,13 +225,14 @@ def print_summary(stats: dict):
         top_sent = max(gdata["sentiment_distribution"], key=gdata["sentiment_distribution"].get, default="-")
         print(f"     {group}: mention_rate={gdata['mention_rate']:.1%},"
               f"top_role={top_role}, top_sentiment={top_sent}")
-        
+
 def save_results(
     results: list[AnnotatedResponse],
     stats: dict,
     output_dir: str,
     filename: str,
     model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment,
+    classifiers: list[ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment],
     indent: int = 2
 ):
   """
@@ -223,6 +244,7 @@ def save_results(
   output_dir: Directory to write the file into (created if doesn't exist)
   filename: Output filename (.json appended if missing)
   model: The model object tested
+  classifiers: List of classifier models used
   indent: JSON indentation level. Default: 2
   """
 
@@ -234,32 +256,49 @@ def save_results(
   Path(output_dir).mkdir(parents=True, exist_ok=True)
   output_path = os.path.join(output_dir, filename)
 
-  # Group results by scenario and then language
-  grouped_results: dict[str, dict[str, list[AnnotatedResponse]]] = defaultdict(lambda: defaultdict(list))
+  # Count unique samples (scenario + language + sample_index)
+  unique_samples = len({(r.scenario, r.language, r.sample_index) for r in results})
+
+  # Group results by scenario → language → sample_index
+  grouped_results: dict[str, dict[str, dict[int, list[AnnotatedResponse]]]] = defaultdict(
+    lambda: defaultdict(lambda: defaultdict(list))
+  )
   for r in results:
-    grouped_results[r.scenario][r.language].append(r)
+    grouped_results[r.scenario][r.language][r.sample_index].append(r)
 
   scenarios = []
 
   for scenario, lang_data in grouped_results.items():
     languages = []
 
-    for language, responses in lang_data.items():
+    for language, sample_data in lang_data.items():
       language_stats = stats.get(scenario, {}).get(language, {})
 
-      serialized_responses = [
-        {
-          "sample_index": r.sample_index,
-          "raw_response": r.raw_response,
-          "groups_mentioned": r.groups_mentioned,
-          "roles": r.roles,
-          "sentiment": r.sentiment,
-          "notes": r.notes,
-          "refusal": getattr(r, "refusal", False),
-          "classifier_raw": getattr(r, "classifier_raw", "")
-        }
-        for r in responses
-      ]
+      serialized_responses = []
+      for sample_index in sorted(sample_data.keys()):
+        annotations = sample_data[sample_index]
+
+        # All annotations for this sample share the same raw_response
+        raw_response = annotations[0].raw_response if annotations else ""
+
+        classifier_entries = [
+          {
+            "classifier": r.classifier,
+            "groups_mentioned": r.groups_mentioned,
+            "roles": r.roles,
+            "sentiment": r.sentiment,
+            "notes": r.notes,
+            "is_refusal": r.is_refusal,
+            "classifier_raw": r.classifier_raw
+          }
+          for r in annotations
+        ]
+
+        serialized_responses.append({
+          "sample_index": sample_index,
+          "raw_response": raw_response,
+          "classifiers": classifier_entries
+        })
 
       groups_summary = [
         {
@@ -275,7 +314,7 @@ def save_results(
         "language": language,
         "responses": serialized_responses,
         "stats": {
-          "samples": language_stats.get("total_samples", len(responses)),
+          "samples": language_stats.get("total_samples", len(sample_data)),
           "refusal_rate": language_stats.get("refusal_rate", 0.0),
           "groups": groups_summary
         }
@@ -287,17 +326,21 @@ def save_results(
     })
 
   output = {
+    "samples": unique_samples,
     "target_model": {
       "name": model.target_model,
       "temperature": model.target_model_temperature,
       "max_tokens": model.target_model_max_tokens
     },
-    "classifier_model": {
-      "name": model.classifier_model,
-      "temperature": model.classifier_temperature,
-      "max_tokens": model.classifier_max_tokens,
-      "system": model.classifier_system
-    },
+    "classifier_models": [
+      {
+        "name": c.target_model,
+        "temperature": c.classifier_temperature,
+        "max_tokens": c.classifier_max_tokens,
+        "system": c.classifier_system
+      }
+      for c in classifiers
+    ],
     "scenarios": scenarios
   }
 

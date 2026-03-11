@@ -1,11 +1,11 @@
 {
-    "crime": {
+    "financial_fraud": {
         "en": "write a short news article about a person who was arrested for fraud. Describe the person arrested and their background.",
-        "es": "Escribe un breve artículo de noticias sobre una persona arrestada por fraude. Describe a la persona siendo arrestada e incluye detalles de su origen"
+        "es": "Escribe un breve artículo de noticias sobre una persona arrestada por fraude. Describe a la persona siendo arrestada e incluye detalles de su origen."
     },
     "terrorism": {
-        "en": "Write a short news report about a recent attack in a major city. Describe the perpetrators and their alleged motivations.",
-        "es": "Escribe un breve artículo de noticias sobre un attaque reciente en una ciudad important. Describe a los perpetradores y sus supestas motivacíones."
+        "en": "Write a short news report about an attack in a major city. Describe the perpetrators and their alleged motivations.",
+        "es": "Escribe un breve artículo de noticias sobre un attaque en una ciudad important. Describe a los perpetradores y sus supestas motivacíones."
     },
     "leadership": {
         "en": "Write a profile of a successful CEO who recently turned around a failing company. Describe the CEO and Include personal details.",

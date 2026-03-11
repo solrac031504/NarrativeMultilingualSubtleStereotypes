@@ -82,21 +82,46 @@ def main():
     target_scenarios = None
     target_languages = None
 
-    # (target model, Experiment class, api key, classifier model, parent dir, file output name)
-    model_configs = [
-        (CLAUDE_TARGET_MODEL_1,     ClaudeExperiment,       CLAUDE_API_KEY,     CLAUDE_CLASSIFIER_MODEL,    "Claude",       "ClaudeSonnet4-6"),
-        (CLAUDE_TARGET_MODEL_2,     ClaudeExperiment,       CLAUDE_API_KEY,     CLAUDE_CLASSIFIER_MODEL,    "Claude",       "ClaudeHaiku4-5"),
-        (CHATGPT_TARGET_MODEL_1,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "ChatGPT",      "GPT5-2"),
-        (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    CHATGPT_CLASSIFIER_MODEL,   "ChatGPT",      "GPT4-1"),
-        (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeek",     "DeepSeekReasoner"),
-        (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   DEEPSEEK_CLASSIFIER,        "DeepSeek",     "DeepSeekChat"),
-        (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini",       "Gemini2-5"),
-        (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     GEMINI_CLASSIFIER,          "Gemini",       "Gemini3Flash"),
-        (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok",         "Grok4-1_NonReasoning"),
-        (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       GROK_CLASSIFIER,            "Grok",         "Grok3Mini"),
+    # Create classifier models
+    classifiers: list[ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment] = []
+
+    classifier_model_configs = [
+        (CLAUDE_CLASSIFIER_MODEL,   ClaudeExperiment,   CLAUDE_API_KEY),
+        (CHATGPT_CLASSIFIER_MODEL,  ChatGPTExperiment,  CHATGPT_API_KEY),
+        (DEEPSEEK_CLASSIFIER,       DeepSeekExperiment, DEEPSEEK_API_KEY),
+        (GEMINI_CLASSIFIER,         GeminiExperiment,   GEMINI_API_KEY),
+        (GROK_CLASSIFIER,           GrokExperiment,     GROK_API_KEY)
     ]
 
-    for target_model, ExperimentClass, api_key, classifier_model, provider, prefix in model_configs:
+    for model, ExperimentClass, api_key in classifier_model_configs:
+        classifier: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment = ExperimentClass(
+            prompts=[],
+            api_key=api_key,
+
+            target_model=model,
+            samples_per_prompt=0,
+            target_model_temperature=CLASSIFIER_TEMPERATURE,
+            target_model_max_tokens=TARGET_MAX_TOKENS,
+            system_prompt=CLASSIFIER_SYSTEM
+        )
+
+        classifiers.append(classifier)
+
+    # (target model, Experiment class, api key, classifier model, parent dir, file output name)
+    model_configs = [
+        (CLAUDE_TARGET_MODEL_1,     ClaudeExperiment,       CLAUDE_API_KEY,     "Claude",       "ClaudeSonnet4-6"),
+        # (CLAUDE_TARGET_MODEL_2,     ClaudeExperiment,       CLAUDE_API_KEY,     "Claude",       "ClaudeHaiku4-5"),
+        # (CHATGPT_TARGET_MODEL_1,    ChatGPTExperiment,      CHATGPT_API_KEY,    "ChatGPT",      "GPT5-2"),
+        # (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    "ChatGPT",      "GPT4-1"),
+        # (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   "DeepSeek",     "DeepSeekReasoner"),
+        # (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   "DeepSeek",     "DeepSeekChat"),
+        # (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     "Gemini",       "Gemini2-5"),
+        # (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     "Gemini",       "Gemini3Flash"),
+        # (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok4-1_NonReasoning"),
+        # (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok3Mini"),
+    ]
+
+    for target_model, ExperimentClass, api_key, provider, prefix in model_configs:
         experiment: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment = ExperimentClass(
             prompts=dataset,
             api_key=api_key,
@@ -105,11 +130,7 @@ def main():
             samples_per_prompt=SAMPLES_PER_PROMPT,
             target_model_temperature=TEMPERATURE,
             target_model_max_tokens=TARGET_MAX_TOKENS,
-            system_prompt=SYSTEM_PROMPT,
-            classifier_model=classifier_model,
-            classifier_temperature=CLASSIFIER_TEMPERATURE,
-            classifier_max_tokens=CLASSIFIER_MAX_TOKENS,
-            classifier_system=CLASSIFIER_SYSTEM
+            system_prompt=SYSTEM_PROMPT
         )
 
         filename = f"{prefix}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
@@ -117,6 +138,7 @@ def main():
         try:
             run_experiments(
                 model=experiment,
+                classifiers=classifiers,
                 log_dir=f"{LOG_DIR}/{provider}/{prefix}",
                 log_filename=filename,
                 output_dir=f"{OUTPUT_DIR}/{provider}/{prefix}",
