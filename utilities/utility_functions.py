@@ -120,7 +120,7 @@ def run_experiments(
         output_dir=output_dir,
         filename=output_filename,
         model=model,
-        classifiers=classifiers
+        classifiers=classifiers,
       )
     except Exception as e:
       print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Exception: {e}")
@@ -245,6 +245,7 @@ def save_results(
   filename: Output filename (.json appended if missing)
   model: The model object tested
   classifiers: List of classifier models used
+  samples_per_prompt: number of response sampled for each prompts
   indent: JSON indentation level. Default: 2
   """
 
@@ -314,7 +315,6 @@ def save_results(
         "language": language,
         "responses": serialized_responses,
         "stats": {
-          "samples": language_stats.get("total_samples", len(sample_data)),
           "refusal_rate": language_stats.get("refusal_rate", 0.0),
           "groups": groups_summary
         }
@@ -326,7 +326,7 @@ def save_results(
     })
 
   output = {
-    "samples": unique_samples,
+    "samples_per_prompt": model.samples_per_prompt,
     "target_model": {
       "name": model.target_model,
       "temperature": model.target_model_temperature,
@@ -335,9 +335,9 @@ def save_results(
     "classifier_models": [
       {
         "name": c.target_model,
-        "temperature": c.classifier_temperature,
-        "max_tokens": c.classifier_max_tokens,
-        "system": c.classifier_system
+        "temperature": c.target_model_temperature,
+        "max_tokens": c.target_model_max_tokens,
+        "system": c.system_prompt
       }
       for c in classifiers
     ],

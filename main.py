@@ -15,7 +15,7 @@ from utilities.utility_functions import run_experiments
 
 def main():
     # General consts
-    SAMPLES_PER_PROMPT = 5
+    SAMPLES_PER_PROMPT = 1
     TEMPERATURE = 1.0 # similar to regular use
     CLASSIFIER_TEMPERATURE = 0.0 # 0 for reproducibility
     TARGET_MAX_TOKENS = 2048
@@ -89,7 +89,7 @@ def main():
         (CLAUDE_CLASSIFIER_MODEL,   ClaudeExperiment,   CLAUDE_API_KEY),
         (CHATGPT_CLASSIFIER_MODEL,  ChatGPTExperiment,  CHATGPT_API_KEY),
         (DEEPSEEK_CLASSIFIER,       DeepSeekExperiment, DEEPSEEK_API_KEY),
-        (GEMINI_CLASSIFIER,         GeminiExperiment,   GEMINI_API_KEY),
+        # (GEMINI_CLASSIFIER,         GeminiExperiment,   GEMINI_API_KEY),
         (GROK_CLASSIFIER,           GrokExperiment,     GROK_API_KEY)
     ]
 
@@ -101,7 +101,7 @@ def main():
             target_model=model,
             samples_per_prompt=0,
             target_model_temperature=CLASSIFIER_TEMPERATURE,
-            target_model_max_tokens=TARGET_MAX_TOKENS,
+            target_model_max_tokens=CLASSIFIER_MAX_TOKENS,
             system_prompt=CLASSIFIER_SYSTEM
         )
 
