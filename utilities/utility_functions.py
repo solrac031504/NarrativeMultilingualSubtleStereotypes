@@ -260,7 +260,7 @@ def save_results(
   # Count unique samples (scenario + language + sample_index)
   unique_samples = len({(r.scenario, r.language, r.sample_index) for r in results})
 
-  # Group results by scenario → language → sample_index
+  # Group results by scenario -> language -> sample_index
   grouped_results: dict[str, dict[str, dict[int, list[AnnotatedResponse]]]] = defaultdict(
     lambda: defaultdict(lambda: defaultdict(list))
   )
