@@ -76,7 +76,7 @@ def main():
 
     # Load dataset
     dataset = {}
-    with open(os.path.join(os.getcwd(), 'prompts', 'prompts.json'), 'r') as f:
+    with open(file=os.path.join(os.getcwd(), 'prompts', 'prompts.json'), mode='r', encoding='utf-8') as f:
         dataset = json.load(f)
 
     target_scenarios = None
