@@ -136,6 +136,10 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
   """
   Compute distributional statistics from annotated results, aggregated across all classifiers.
 
+  mention_rate: fraction of samples in which at least one classifier mentioned the group (i.e. per-sample coverage, not per-classifier frequency)
+
+  classifier_agreement: average number of classifiers that flagged the group per sample, across only the samples where it was mentioned at least once
+
   <OUTPUTS>
   Nested dict: {
     scenario: {
@@ -143,7 +147,8 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
         group: {
           role_counts,
           sentiment_counts,
-          mention_rate
+          mention_rate,
+          classifier_agreement
         }
       }
     }
@@ -153,7 +158,10 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
   stats: dict = defaultdict(lambda: defaultdict(lambda: {
       "total_samples": 0,
       "refusal_count": 0,
-      "group_mentions": defaultdict(int),
+      # group -> set of sample indices where >= 1 classifier mentioned it
+      "group_sample_hits": defaultdict(set),
+      # group -> total classifier mentions across all samples (for agreement calc)
+      "group_classifier_hits": defaultdict(int),
       "role_counts": defaultdict(lambda: defaultdict(int)),
       "sentiment_counts": defaultdict(lambda: defaultdict(int))
   }))
@@ -161,8 +169,12 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
   # Track unique (scenario, language, sample_index) tuples to count samples once
   seen_samples: set = set()
 
+  # Track number of classifiers per (scenario, language)
+  classifier_ids: dict = defaultdict(lambda: defaultdict(set))
+
   for r in results:
     cell = stats[r.scenario][r.language]
+    classifier_ids[r.scenario][r.language].add(r.classifier)
 
     sample_key = (r.scenario, r.language, r.sample_index)
     if sample_key not in seen_samples:
@@ -172,35 +184,49 @@ def compute_statistics(results: list[AnnotatedResponse]) -> dict:
         cell["refusal_count"] += 1
 
     for group in r.groups_mentioned:
-      cell["group_mentions"][group] += 1
+      # Record that this sample had the group flagged (de-duped per sample)
+      cell["group_sample_hits"][group].add(r.sample_index)
+      # Count every classifier flag for agreement calculation
+      cell["group_classifier_hits"][group] += 1
+
       role = r.roles.get(group, "unspecified")
       sent = r.sentiment.get(group, "neutral")
       cell["role_counts"][group][role] += 1
       cell["sentiment_counts"][group][sent] += 1
 
-  # Compute mention rates
-  # Normalise by (total_samples * number_of_classifiers) so rates reflect per-sample frequency
-  classifier_counts: dict = defaultdict(lambda: defaultdict(set))
-  for r in results:
-    classifier_counts[r.scenario][r.language].add(r.classifier)
-
   output = {}
   for scenario, lang_data in stats.items():
     output[scenario] = {}
     for lang, cell in lang_data.items():
-      n = cell["total_samples"]
-      n_classifiers = len(classifier_counts[scenario][lang])
-      normaliser = n * n_classifiers if n_classifiers else n
+      n_samples = cell["total_samples"]
+      n_classifiers = len(classifier_ids[scenario][lang])
+
       output[scenario][lang] = {
-          "total_samples": n,
-          "refusal_rate": cell["refusal_count"] / n if n else 0,
+          "total_samples": n_samples,
+          "refusal_rate": cell["refusal_count"] / n_samples if n_samples else 0,
           "groups": {}
       }
 
-      for group, count in cell["group_mentions"].items():
+      for group, sample_hit_set in cell["group_sample_hits"].items():
+        # Samples where >= 1 classifier mentioned this group
+        samples_with_mention = len(sample_hit_set)
+
+        # mention_rate: fraction of samples where the group appeared at all
+        mention_rate = samples_with_mention / n_samples if n_samples else 0
+
+        # classifier_agreement: average classifiers per sample that flagged it,
+        # computed only over the samples where it was mentioned at least once
+        total_classifier_flags = cell["group_classifier_hits"][group]
+        classifier_agreement = (
+            total_classifier_flags / (samples_with_mention * n_classifiers)
+            if samples_with_mention and n_classifiers
+            else 0
+        )
+
         output[scenario][lang]["groups"][group] = {
-            "mention_rate": count / normaliser,
-            "mention_count": count,
+            "mention_rate": mention_rate,
+            "classifier_agreement": classifier_agreement,
+            "mention_count": total_classifier_flags,
             "role_distribution": dict(cell["role_counts"][group]),
             "sentiment_distribution": dict(cell["sentiment_counts"][group])
         }
@@ -223,7 +249,8 @@ def print_summary(stats: dict):
       for group, gdata in sorted(data["groups"].items(), key=lambda x: -x[1]["mention_rate"]):
         top_role = max(gdata["role_distribution"], key=gdata["role_distribution"].get, default="-")
         top_sent = max(gdata["sentiment_distribution"], key=gdata["sentiment_distribution"].get, default="-")
-        print(f"     {group}: mention_rate={gdata['mention_rate']:.1%},"
+        print(f"     {group}: mention_rate={gdata['mention_rate']:.1%}, "
+              f"classifier_agreement={gdata['classifier_agreement']:.1%}, "
               f"top_role={top_role}, top_sentiment={top_sent}")
 
 def save_results(
@@ -245,7 +272,6 @@ def save_results(
   filename: Output filename (.json appended if missing)
   model: The model object tested
   classifiers: List of classifier models used
-  samples_per_prompt: number of response sampled for each prompts
   indent: JSON indentation level. Default: 2
   """
 
@@ -256,9 +282,6 @@ def save_results(
   # Create output directory if needed
   Path(output_dir).mkdir(parents=True, exist_ok=True)
   output_path = os.path.join(output_dir, filename)
-
-  # Count unique samples (scenario + language + sample_index)
-  unique_samples = len({(r.scenario, r.language, r.sample_index) for r in results})
 
   # Group results by scenario -> language -> sample_index
   grouped_results: dict[str, dict[str, dict[int, list[AnnotatedResponse]]]] = defaultdict(
@@ -305,6 +328,7 @@ def save_results(
         {
           "group": group,
           "mention_rate": gdata["mention_rate"],
+          "classifier_agreement": gdata["classifier_agreement"],
           "top_role": max(gdata["role_distribution"], key=gdata["role_distribution"].get, default="-"),
           "top_sentiment": max(gdata["sentiment_distribution"], key=gdata["sentiment_distribution"].get, default="-")
         }
