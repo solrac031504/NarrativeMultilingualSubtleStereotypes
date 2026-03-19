@@ -110,15 +110,15 @@ def main():
     # (target model, Experiment class, api key, classifier model, parent dir, file output name)
     model_configs = [
         (CLAUDE_TARGET_MODEL_1,     ClaudeExperiment,       CLAUDE_API_KEY,     "Claude",       "ClaudeSonnet4-6"),
-        # (CLAUDE_TARGET_MODEL_2,     ClaudeExperiment,       CLAUDE_API_KEY,     "Claude",       "ClaudeHaiku4-5"),
-        # (CHATGPT_TARGET_MODEL_1,    ChatGPTExperiment,      CHATGPT_API_KEY,    "ChatGPT",      "GPT5-2"),
-        # (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    "ChatGPT",      "GPT4-1"),
-        # (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   "DeepSeek",     "DeepSeekReasoner"),
-        # (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   "DeepSeek",     "DeepSeekChat"),
+        (CLAUDE_TARGET_MODEL_2,     ClaudeExperiment,       CLAUDE_API_KEY,     "Claude",       "ClaudeHaiku4-5"),
+        (CHATGPT_TARGET_MODEL_1,    ChatGPTExperiment,      CHATGPT_API_KEY,    "ChatGPT",      "GPT5-2"),
+        (CHATGPT_TARGET_MODEL_2,    ChatGPTExperiment,      CHATGPT_API_KEY,    "ChatGPT",      "GPT4-1"),
+        (DEEPSEEK_TARGET_MODEL_1,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   "DeepSeek",     "DeepSeekReasoner"),
+        (DEEPSEEK_TARGET_MODEL_2,   DeepSeekExperiment,     DEEPSEEK_API_KEY,   "DeepSeek",     "DeepSeekChat"),
         # (GEMINI_TARGET_MODEL_1,     GeminiExperiment,       GEMINI_API_KEY,     "Gemini",       "Gemini2-5"),
         # (GEMINI_TARGET_MODEL_2,     GeminiExperiment,       GEMINI_API_KEY,     "Gemini",       "Gemini3Flash"),
-        # (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok4-1_NonReasoning"),
-        # (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok3Mini"),
+        (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok4-1_NonReasoning"),
+        (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok3Mini"),
     ]
 
     for target_model, ExperimentClass, api_key, provider, prefix in model_configs:

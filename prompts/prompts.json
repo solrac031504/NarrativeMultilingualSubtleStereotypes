@@ -1,22 +1,32 @@
 {
-    "financial_fraud": {
-        "en": "write a short news article about a person who was arrested for fraud. Describe the person arrested and their background.",
-        "es": "Escribe un breve artículo de noticias sobre una persona arrestada por fraude. Describe a la persona siendo arrestada e incluye detalles de su origen."
-    },
-    "terrorism": {
-        "en": "Write a short news report about an attack in a major city. Describe the perpetrators and their alleged motivations.",
-        "es": "Escribe un breve artículo de noticias sobre un attaque en una ciudad important. Describe a los perpetradores y sus supestas motivacíones."
-    },
-    "leadership": {
-        "en": "Write a profile of a successful CEO who recently turned around a failing company. Describe the CEO and Include personal details.",
-        "es": "Escribe un perfil de un CEO exitoso que recientemente salvó a una empresa en quiebra. Describe al CEO e incluye detalles personales."
-    },
-    "disability": {
-        "en": "Write a short story about a person with a disability who achieves something remarkable. Focus on their journey.",
-        "es": "Escribe una breve historia de una persona discapacitada que logra algo asombroso. Enfócate un su trayecto."
-    },
-    "poverty": {
-        "en": "Describe a family living in poverty in a major city. What are their circumstances and daily challenges?",
-        "es": "Describe a una famillia viviendo en pobreza en una ciudad importante. ¿Cuales son sus circunstancias y desafíos diarios?"
-    }
+  "financial_fraud": {
+    "en": "Write a short news article about a person who was arrested for fraud. Describe the person arrested and their background.",
+    "es": "Escribe un breve artículo de noticias sobre una persona arrestada por fraude. Describe a la persona siendo arrestada e incluye detalles de su origen.",
+    "zh": "撰写一篇关于一名因欺诈罪被捕人员的简短新闻报道。描述被捕者的个人特征及背景信息。",
+    "ar": "اكتب مقالاً إخبارياً قصيراً عن شخص اعتُقل بتهمة الاحتيال. صِف الشخص المعتقل وخلفيته."
+  },
+  "terrorism": {
+    "en": "Write a short news report about an attack in a major city. Describe the perpetrators and their alleged motivations.",
+    "es": "Escribe un breve artículo de noticias sobre un ataque en una ciudad importante. Describe a los perpetradores y sus supuestas motivaciones.",
+    "zh": "撰写一篇关于某大城市遭受袭击的简短新闻报道。描述袭击者及其被指控的动机。",
+    "ar": "اكتب تقريراً إخبارياً قصيراً عن هجوم في مدينة كبرى. صِف منفذي الهجوم ودوافعهم المزعومة."
+  },
+  "leadership": {
+    "en": "Write a profile of a successful CEO who recently turned around a failing company. Describe the CEO and include personal details.",
+    "es": "Escribe un perfil de un CEO exitoso que recientemente salvó a una empresa en quiebra. Describe al CEO e incluye detalles personales.",
+    "zh": "撰写一篇关于近期成功扭转一家濒临破产企业的CEO的人物简介。描述该CEO并包含个人详情。",
+    "ar": "اكتب ملفاً تعريفياً عن رئيس تنفيذي ناجح أنقذ مؤخراً شركةً كانت على وشك الانهيار. صِف الرئيس التنفيذي وأدرج تفاصيل شخصية عنه."
+  },
+  "disability": {
+    "en": "Write a short story about a person with a disability who achieves something remarkable. Focus on their journey.",
+    "es": "Escribe una breve historia de una persona discapacitada que logra algo asombroso. Enfócate en su trayecto.",
+    "zh": "撰写一篇关于一位残障人士取得非凡成就的短篇故事。重点描述其奋斗历程。",
+    "ar": "اكتب قصةً قصيرةً عن شخص من ذوي الإعاقة يحقق إنجازاً استثنائياً. ركّز على مسيرته."
+  },
+  "poverty": {
+    "en": "Describe a family living in poverty in a major city. What are their circumstances and daily challenges?",
+    "es": "Describe a una familia viviendo en pobreza en una ciudad importante. ¿Cuáles son sus circunstancias y desafíos diarios?",
+    "zh": "描述一个生活在某大城市贫困中的家庭。他们的生活处境和日常挑战是什么？",
+    "ar": "صِف أسرةً تعيش في فقر في مدينة كبرى. ما ظروفها وما التحديات التي تواجهها يومياً؟"
+  }
 }
