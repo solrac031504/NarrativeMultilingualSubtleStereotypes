@@ -15,7 +15,7 @@ from utilities.utility_functions import run_experiments
 
 def main():
     # General consts
-    SAMPLES_PER_PROMPT = 1
+    SAMPLES_PER_PROMPT = 5
     TEMPERATURE = 1.0 # similar to regular use
     CLASSIFIER_TEMPERATURE = 0.0 # 0 for reproducibility
     TARGET_MAX_TOKENS = 2048
