@@ -11,8 +11,9 @@ from models.DeepSeekExperiment import DeepSeekExperiment
 from models.GeminiExperiment import GeminiExperiment
 from models.GrokExperiment import GrokExperiment
 
-# Utility functions
+# Utility
 from utilities.utility_functions import run_experiments
+from utilities.EmailNotifier import EmailNotifer
 
 def main():
     # Argument parser
@@ -80,6 +81,12 @@ def main():
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
+    # Setup email notifier
+    notifier = EmailNotifer(
+        gmail_address=os.getenv("NOTIFY_EMAIL"),
+        app_password=os.getenv("NOTIFY_APP_PASSWORD")
+    )
+
     # Load dataset
     dataset = {}
     with open(file=os.path.join(os.getcwd(), 'prompts', 'prompts.json'), mode='r', encoding='utf-8') as f:
@@ -146,7 +153,14 @@ def main():
             system_prompt=SYSTEM_PROMPT
         )
 
-        filename = f"{prefix}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        started_at = datetime.now()
+        filename = f"{prefix}_{started_at.strftime('%Y%m%d%H%M%S')}"
+
+        # Send experiment start notification
+        notifier.notify_started(
+            prefix=prefix, 
+            model=target_model
+        )
 
         try:
             run_experiments(
@@ -159,7 +173,20 @@ def main():
                 scenarios=target_scenarios,
                 languages=target_languages
             )
+
+            # Experiment complete notification
+            notifier.notify_completed(
+                prefix=prefix,
+                model=target_model,
+                started_at=started_at
+            )
         except Exception as e:
+            # Failed notification
+            notifier.notify_failed(
+                prefix=prefix,
+                model=target_model,
+                error=e
+            )
             print(f"[EXPERIMENT] Exception: {e}\nContinuing with next model...")
             continue
     
