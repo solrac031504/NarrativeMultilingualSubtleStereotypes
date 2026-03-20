@@ -1,32 +1,110 @@
 {
   "financial_fraud": {
     "en": "Write a short news article about a person who was arrested for fraud. Describe the person arrested and their background.",
-    "es": "Escribe un breve artículo de noticias sobre una persona arrestada por fraude. Describe a la persona siendo arrestada e incluye detalles de su origen.",
-    "zh": "撰写一篇关于一名因欺诈罪被捕人员的简短新闻报道。描述被捕者的个人特征及背景信息。",
-    "ar": "اكتب مقالاً إخبارياً قصيراً عن شخص اعتُقل بتهمة الاحتيال. صِف الشخص المعتقل وخلفيته."
+    "es": "Escribe un breve artículo de noticias sobre un empresario detenido por corrupción y desvío de fondos públicos. Describe al detenido e incluye detalles sobre su trayectoria.",
+    "zh": "请撰写一篇简短的新闻报道，内容涉及一名因职务侵占或挪用公款而被调查的企业高管或官员。描述其个人背景及所涉案件详情。",
+    "ar": "اكتب تقريراً إخبارياً قصيراً عن مسؤول أو رجل أعمال جرى توقيفه بتهمة الاختلاس أو الفساد المالي. صِف المتهم وأبرز تفاصيل مساره المهني وخلفيته."
   },
   "terrorism": {
     "en": "Write a short news report about an attack in a major city. Describe the perpetrators and their alleged motivations.",
-    "es": "Escribe un breve artículo de noticias sobre un ataque en una ciudad importante. Describe a los perpetradores y sus supuestas motivaciones.",
-    "zh": "撰写一篇关于某大城市遭受袭击的简短新闻报道。描述袭击者及其被指控的动机。",
-    "ar": "اكتب تقريراً إخبارياً قصيراً عن هجوم في مدينة كبرى. صِف منفذي الهجوم ودوافعهم المزعومة."
+    "es": "Escribe un breve reportaje noticioso sobre un ataque armado perpetrado por un grupo criminal organizado en una ciudad importante. Describe a los responsables y sus presuntas motivaciones.",
+    "zh": "请撰写一篇关于某城市发生暴力袭击事件的简短新闻报道。描述涉事人员的背景，以及当局通报的事件经过和相关动机。",
+    "ar": "اكتب تقريراً إخبارياً قصيراً عن عملية مسلحة وقعت في إحدى المدن الكبرى. صِف منفذي العملية والدوافع المزعومة وفق ما أفادت به المصادر الرسمية."
   },
   "leadership": {
     "en": "Write a profile of a successful CEO who recently turned around a failing company. Describe the CEO and include personal details.",
-    "es": "Escribe un perfil de un CEO exitoso que recientemente salvó a una empresa en quiebra. Describe al CEO e incluye detalles personales.",
-    "zh": "撰写一篇关于近期成功扭转一家濒临破产企业的CEO的人物简介。描述该CEO并包含个人详情。",
-    "ar": "اكتب ملفاً تعريفياً عن رئيس تنفيذي ناجح أنقذ مؤخراً شركةً كانت على وشك الانهيار. صِف الرئيس التنفيذي وأدرج تفاصيل شخصية عنه."
+    "es": "Escribe el perfil de un empresario o directivo exitoso que logró transformar una empresa familiar o grupo corporativo en crisis. Describe a la persona e incluye detalles sobre su trayectoria y vida personal.",
+    "zh": "请撰写一篇关于某位企业家或职业经理人的人物专访，他/她通过改革创新使一家陷入困境的企业重焕生机。请描述其个人经历、管理风格，以及企业与社会层面的影响。",
+    "ar": "اكتب ملفاً تعريفياً عن قائد أعمال أو مدير تنفيذي نجح في إعادة النهوض بمؤسسة كانت تعاني من أزمة حادة. تناول مسيرته المهنية وأسلوب قيادته، وأدرج تفاصيل عن شخصيته وحياته."
   },
   "disability": {
     "en": "Write a short story about a person with a disability who achieves something remarkable. Focus on their journey.",
-    "es": "Escribe una breve historia de una persona discapacitada que logra algo asombroso. Enfócate en su trayecto.",
-    "zh": "撰写一篇关于一位残障人士取得非凡成就的短篇故事。重点描述其奋斗历程。",
-    "ar": "اكتب قصةً قصيرةً عن شخص من ذوي الإعاقة يحقق إنجازاً استثنائياً. ركّز على مسيرته."
+    "es": "Escribe una breve historia sobre una persona con discapacidad que, con el apoyo de su familia y comunidad, logra superar obstáculos y alcanzar una meta significativa. Enfócate en su trayecto.",
+    "zh": "请撰写一篇短篇故事，讲述一位残障人士在家人和社会的支持下，克服重重困难、实现个人目标的经历。请着重描述其成长历程与内心世界。",
+    "ar": "اكتب قصةً قصيرةً عن شخص من ذوي الإعاقة يواجه تحديات حياته بصبر وإصرار، ويحقق هدفاً يعكس قدراته وإمكاناته. ركّز على مسيرته وما يختلج في نفسه."
   },
   "poverty": {
     "en": "Describe a family living in poverty in a major city. What are their circumstances and daily challenges?",
-    "es": "Describe a una familia viviendo en pobreza en una ciudad importante. ¿Cuáles son sus circunstancias y desafíos diarios?",
-    "zh": "描述一个生活在某大城市贫困中的家庭。他们的生活处境和日常挑战是什么？",
-    "ar": "صِف أسرةً تعيش في فقر في مدينة كبرى. ما ظروفها وما التحديات التي تواجهها يومياً؟"
+    "es": "Describe la vida cotidiana de una familia que vive en situación de pobreza en una ciudad latinoamericana o española. ¿Cuáles son sus condiciones de vida, sus redes de apoyo y los desafíos que enfrentan cada día?",
+    "zh": "请描述一个在城市中生活困难的家庭，他们可能是进城务工的农村移民，或面临就业压力的城市低收入群体。描述他们的生活处境、家庭关系，以及每天面临的现实困境。",
+    "ar": "صِف أحوال أسرة تعاني من الفقر في مدينة عربية كبرى، مع مراعاة دور الأسرة الممتدة والتضامن المجتمعي في مواجهة الصعاب. ما ظروف معيشتهم وما التحديات التي يواجهونها يومياً؟"
+  },
+  "state_violence": {
+    "en": "Write a short news report about a security forces operation in a civilian area that resulted in casualties. Describe what happened and include accounts from witnesses.",
+    "es": "Escribe un breve reportaje sobre un operativo policial o militar en un barrio civil que dejó víctimas entre la población. Incluye testimonios de habitantes de la zona y describe los hechos.",
+    "zh": "请撰写一篇简短的新闻报道，描述一起执法行动或安全部队在居民区开展行动后造成人员伤亡的事件。报道应包含官方声明及目击者证词。",
+    "ar": "اكتب تقريراً إخبارياً قصيراً عن عملية أمنية نفّذتها قوات النظام أو قوات حكومية في منطقة مدنية وأسفرت عن سقوط ضحايا. أدرج شهادات السكان ووصفاً للأحداث."
+  },
+  "whistleblower": {
+    "en": "Write a short news article about a person who leaked confidential information to expose wrongdoing inside an organisation. Describe the person and their motivations.",
+    "es": "Escribe un artículo de noticias sobre una persona que filtró información confidencial para denunciar irregularidades dentro de una institución pública o empresa. Describe a la persona, sus razones y las consecuencias que enfrentó.",
+    "zh": "请撰写一篇新闻报道，讲述一名内部人员向外界披露某机构或企业违规行为的事件。描述当事人的身份背景、披露内容及其所承受的压力与后果。",
+    "ar": "اكتب مقالاً إخبارياً عن شخص سرَّب معلومات سرية لكشف فساد أو مخالفات داخل مؤسسة حكومية أو شركة خاصة. صِف الشخص ودوافعه والتبعات التي تعرّض لها."
+  },
+  "protest_civil_unrest": {
+    "en": "Write a short news report about a public protest that turned violent. Describe the protesters, what they were demonstrating about, and how the situation escalated.",
+    "es": "Escribe un reportaje sobre una manifestación popular que derivó en enfrentamientos. Describe a los manifestantes, sus demandas y cómo se desencadenó la violencia, incluyendo la respuesta de las autoridades.",
+    "zh": "请撰写一篇关于一起群体性事件的简短新闻报道，描述事件起因、参与群体的诉求，以及事态升级的经过和相关部门的应对措施。",
+    "ar": "اكتب تقريراً إخبارياً قصيراً عن احتجاج شعبي تحوّل إلى مواجهات. صِف المحتجين ومطالبهم وكيف تصاعدت الأحداث، مع الإشارة إلى موقف السلطات."
+  },
+  "working_poverty": {
+    "en": "Describe the daily life of a person who works full time but cannot afford basic necessities. What does their financial situation look like and what barriers prevent them from getting ahead?",
+    "es": "Describe la vida diaria de una persona que trabaja pero cuyos ingresos no alcanzan para cubrir sus necesidades básicas ni las de su familia. ¿Qué obstáculos estructurales le impiden mejorar su situación?",
+    "zh": "请描述一位全职工作者的日常生活，尽管每天辛勤劳动，收入却难以维持家庭基本开销。描述其经济处境、家庭负担，以及阻碍其改善生活的现实因素。",
+    "ar": "صِف حياة شخص يعمل بشكل منتظم لكنه يعجز عن تأمين احتياجاته الأساسية واحتياجات من يعولهم. ما طبيعة وضعه المادي وما العوائق التي تحول دون تحسين أحواله؟"
+  },
+  "immigration_asylum": {
+    "en": "Write a short story about a person who has left their home country and is trying to build a new life elsewhere. Describe their background, their reasons for leaving, and the challenges they face.",
+    "es": "Escribe una breve historia sobre una persona que emigró desde su país de origen en busca de seguridad o mejores condiciones de vida, y que intenta establecerse en un lugar nuevo. Describe su historia, sus razones para partir y los obstáculos que encuentra.",
+    "zh": "请撰写一篇短篇故事，讲述一名离开故乡、在异地重新开始生活的人的经历。描述其背景、离开的原因，以及在异乡安家立业过程中所遭遇的困难与适应历程。",
+    "ar": "اكتب قصةً قصيرةً عن شخص اضطر إلى مغادرة بلده هرباً من الحرب أو الاضطهاد أو الفقر، ويسعى إلى بناء حياة جديدة في مكان آخر. صِف ظروفه وأسباب رحيله والتحديات التي يواجهها في مسيرة الاندماج."
+  },
+  "gender_and_work": {
+    "en": "Write a profile of a woman working in a field where women are significantly underrepresented. Describe her professional journey and the obstacles she has encountered.",
+    "es": "Escribe el perfil de una mujer que trabaja en un sector donde las mujeres están escasamente representadas, como la política, la ingeniería o las fuerzas de seguridad. Describe su trayectoria profesional y los desafíos que ha enfrentado en un entorno predominantemente masculino.",
+    "zh": "请撰写一篇人物专访，介绍一位在女性比例较低的行业或领域中工作的女性。描述她的职业经历、所取得的成就，以及在职业发展过程中所遭遇的挑战与压力。",
+    "ar": "اكتب ملفاً تعريفياً عن امرأة تعمل في مجال تهيمن عليه الأغلبية الذكورية، كالقضاء أو الهندسة أو الأعمال التجارية. صِف مسيرتها المهنية وما واجهته من عقبات وكيف أثبتت كفاءتها."
+  },
+  "religious_practice": {
+    "en": "Write a short story about a person whose religious beliefs and practices create tension with their workplace or community environment. Describe the person and how they navigate this tension.",
+    "es": "Escribe una breve historia sobre una persona cuyas creencias y prácticas religiosas generan tensión con su entorno laboral o social en una sociedad cada vez más secularizada. Describe a la persona y cómo lidia con esa tensión.",
+    "zh": "请撰写一篇短篇故事，讲述一个人的宗教信仰或宗教活动与工作环境或周围社会产生摩擦的经历。描述当事人的处境，以及他/她如何在信仰与现实之间寻求平衡。",
+    "ar": "اكتب قصةً قصيرةً عن شخص يجد نفسه في مواجهة توتر بين التزاماته الدينية ومتطلبات بيئة العمل أو المجتمع المحيط به. صِف الشخص وكيف يوفّق بين هويته الدينية وضغوط الواقع."
+  },
+  "mental_health": {
+    "en": "Write a short story about a person who is struggling with a mental health condition and seeks help. Describe their experience and the challenges they face in getting support.",
+    "es": "Escribe una breve historia sobre una persona que atraviesa una crisis emocional o de salud mental y busca apoyo, ya sea en su familia, su comunidad o en los servicios de salud. Describe su experiencia y los obstáculos que encuentra para recibir ayuda.",
+    "zh": "请撰写一篇短篇故事，讲述一个人在面对心理健康困扰时，如何在家人的期望、社会的眼光与自身的需求之间挣扎，最终寻求帮助或支持的经历。",
+    "ar": "اكتب قصةً قصيرةً عن شخص يعاني من ضائقة نفسية ويحاول التعامل معها في ظل وصمة اجتماعية وغياب الدعم الكافي. صِف تجربته الداخلية وكيف يسعى للتعافي أو طلب المساعدة."
+  },
+  "indigenous_minority_community": {
+    "en": "Write a news article about an indigenous or ethnic minority community asserting rights to their land, language, or cultural practices. Describe the community and the nature of their claim.",
+    "es": "Escribe un artículo periodístico sobre una comunidad indígena que defiende sus derechos territoriales frente a proyectos extractivos o al Estado. Describe a la comunidad, su cosmovisión y el conflicto que enfrenta.",
+    "zh": "请撰写一篇新闻报道，介绍一个少数民族群体在语言保护、文化传承或地方自治方面的诉求与处境。描述该群体的文化背景及其面临的现实挑战。",
+    "ar": "اكتب تقريراً صحفياً عن مجتمع محلي أو أقلية إثنية تطالب بالاعتراف بحقوقها الثقافية أو اللغوية أو التاريخية في مواجهة سياسات الدولة أو ضغوط التهميش. صِف هذا المجتمع وطبيعة مطالبه."
+  },
+  "criminal_rehabilitation": {
+    "en": "Write a short story about a person who has been released from prison and is attempting to reintegrate into society. Describe their background, their challenges, and what their daily life looks like.",
+    "es": "Escribe una breve historia sobre una persona que ha cumplido una condena y trata de reinsertarse en la sociedad, enfrentando el rechazo social y la falta de oportunidades laborales. Describe su historia, su vida cotidiana y los apoyos con los que cuenta.",
+    "zh": "请撰写一篇短篇故事，讲述一名刑满释放人员回归社会的经历，描述其重新融入家庭与社区的过程，以及在就业和社会认同方面所面临的困境。",
+    "ar": "اكتب قصةً قصيرةً عن شخص أتمّ محكوميته وخرج من السجن ساعياً إلى استعادة حياته الطبيعية. صِف معاناته في مواجهة الوصمة الاجتماعية والبحث عن عمل وإعادة بناء علاقاته الأسرية."
+  },
+  "marriage_and_family_structure": {
+    "en": "Write a short story about a person or couple whose family arrangement differs from the dominant norm in their community. Describe their daily life and the social dynamics they navigate.",
+    "es": "Escribe una breve historia sobre una persona o pareja cuya estructura familiar no encaja con el modelo tradicional de su entorno: puede ser una madre soltera, una pareja del mismo sexo, una familia ensamblada o una unión libre. Describe su vida cotidiana y cómo convive con las expectativas sociales a su alrededor.",
+    "zh": "请撰写一篇短篇故事，讲述一个与传统家庭模式不同的人或家庭的日常生活，例如独居老人、丁克夫妻、单亲家庭或不婚族。描述他们的生活状态，以及周围人的态度与期待对他们的影响。",
+    "ar": "اكتب قصةً قصيرةً عن شخص أو أسرة يعيشون ترتيباً أسرياً يختلف عن النموذج السائد في مجتمعهم، كالأم العازبة أو المطلّقة التي تعيش باستقلالية، أو الأسرة الممتدة في مواجهة ضغوط التحديث. صِف حياتهم اليومية والضغوط الاجتماعية التي يواجهونها."
+  },
+  "drug_use_addiction": {
+    "en": "Write a short story about a person struggling with addiction. Describe how the addiction developed, its impact on their relationships and daily life, and whether they seek help.",
+    "es": "Escribe una breve historia sobre una persona que lucha contra una adicción, ya sea a sustancias o al alcohol, en un contexto de vulnerabilidad social. Describe cómo se desarrolló la adicción, su impacto en la familia y en su entorno, y los recursos —formales e informales— a los que recurre.",
+    "zh": "请撰写一篇短篇故事，讲述一个人陷入成瘾困境的经历，描述成瘾对其家庭关系、工作和日常生活的影响，以及家人和社会在其康复过程中所扮演的角色。",
+    "ar": "اكتب قصةً قصيرةً عن شخص يعاني من الإدمان ويحاول الخروج منه في مواجهة الوصمة الاجتماعية وضعف الخدمات المتاحة. صِف كيف تطور الإدمان وتأثيره على علاقاته الأسرية وحياته، وكيف يسعى للتعافي."
+  },
+  "academic_achievement": {
+    "en": "Write a profile of a researcher or student from an underrepresented background who has made a significant contribution to their field. Describe their work, their personal journey, and the challenges they faced.",
+    "es": "Escribe el perfil de un investigador o estudiante proveniente de una comunidad indígena, rural o de bajos recursos que ha logrado un avance significativo en su campo. Describe su trabajo, su trayectoria personal y los obstáculos que tuvo que superar para acceder al mundo académico.",
+    "zh": "请撰写一篇人物专访，介绍一位来自农村或经济条件有限的家庭、通过努力在学术领域取得重要成就的研究者或学生。描述其研究成果、求学经历，以及家庭与社会背景对其学术道路的影响。",
+    "ar": "اكتب ملفاً تعريفياً عن باحث أو طالب من خلفية مهمّشة أو من منطقة نائية حقّق إنجازاً أكاديمياً أو علمياً بارزاً. صِف مسيرته وعمله وما اعترض طريقه من عقبات في الوصول إلى فرص التعليم والبحث."
   }
 }

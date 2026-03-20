@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 from dotenv import load_dotenv
 from datetime import datetime
 
@@ -14,8 +15,13 @@ from models.GrokExperiment import GrokExperiment
 from utilities.utility_functions import run_experiments
 
 def main():
+    # Argument parser
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model', help='Single model prefix to run (e.g., ClaudeSonnet4-6)')
+    args = parser.parse_args()
+
     # General consts
-    SAMPLES_PER_PROMPT = 5
+    SAMPLES_PER_PROMPT = 100
     TEMPERATURE = 1.0 # similar to regular use
     CLASSIFIER_TEMPERATURE = 0.0 # 0 for reproducibility
     TARGET_MAX_TOKENS = 2048
@@ -120,6 +126,13 @@ def main():
         (GROK_TARGET_MODEL_1,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok4-1_NonReasoning"),
         (GROK_TARGET_MODEL_2,       GrokExperiment,         GROK_API_KEY,       "Grok",         "Grok3Mini"),
     ]
+
+    # Filter to a the model if --model flag is provided
+    if args.model:
+        model_configs = [c for c in model_configs if c[4] == args.model]
+        if not model_configs: 
+            print(f"[ERROR] Unknown model '{args.model}'. Valid options: {[c[4] for c in model_configs]}")
+            return
 
     for target_model, ExperimentClass, api_key, provider, prefix in model_configs:
         experiment: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment = ExperimentClass(
