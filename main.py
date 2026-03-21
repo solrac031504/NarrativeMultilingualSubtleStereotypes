@@ -22,7 +22,7 @@ def main():
     args = parser.parse_args()
 
     # General consts
-    SAMPLES_PER_PROMPT = 100
+    SAMPLES_PER_PROMPT = 25
     TEMPERATURE = 1.0 # similar to regular use
     CLASSIFIER_TEMPERATURE = 0.0 # 0 for reproducibility
     TARGET_MAX_TOKENS = 2048
