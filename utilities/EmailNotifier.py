@@ -84,3 +84,21 @@ class EmailNotifer:
                 f"Error:\n{traceback.format_exc()}"
             )
         )
+
+    def notify_update(self, prefix: str, model: str, scenario: str, lang: str):
+        """
+        Structures an experiment update email
+
+        <INPUTS>
+        prefix: The model prefix generating responses
+        model: The name of the model generating responses
+        scenario: The scenario started
+        lang: The language started
+        """
+        self._send(
+            subject=f"[EXPERIMENT] {prefix} update",
+            body=(
+                f"Model: {model}\n"
+                f"Starting scenario '{scenario}' for language '{lang}' at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+            )
+        )

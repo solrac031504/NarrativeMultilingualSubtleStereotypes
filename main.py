@@ -166,6 +166,8 @@ def main():
             run_experiments(
                 model=experiment,
                 classifiers=classifiers,
+                notifier=notifier,
+                prefix=prefix,
                 log_dir=f"{LOG_DIR}/{provider}/{prefix}",
                 log_filename=filename,
                 output_dir=f"{OUTPUT_DIR}/{provider}/{prefix}",

@@ -12,6 +12,9 @@ from pathlib import Path
 from utilities.data_structures import AnnotatedResponse
 from utilities.Tee import Tee
 
+# Email sending
+from utilities.EmailNotifier import EmailNotifer
+
 # Model imports
 from models.ChatGPTExperiment import ChatGPTExperiment
 from models.ClaudeExperiment import ClaudeExperiment
@@ -23,6 +26,9 @@ def run_experiments(
       model: ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment,
 
       classifiers: list[ClaudeExperiment | ChatGPTExperiment | DeepSeekExperiment | GeminiExperiment | GrokExperiment],
+
+      notifier: EmailNotifer,
+      prefix: str,
 
       log_dir: str,
       log_filename: str,
@@ -39,6 +45,8 @@ def run_experiments(
     <INPUTS>
     model: The model class being tested. Instantiated with the model already
     classifiers: List of classifier models used to analyze responses
+    notifier: Notifer class to send email updates
+    prefix: Shorthand version of the provider and model name. Used to send emails
     log_dir: Directory to write log/out info
     log_filename: Name of log file being written to
     output_dir: Directory to write final results to
@@ -72,6 +80,13 @@ def run_experiments(
           if language not in prompt_bank:
             print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] No prompt for scenario={scenario}, lang={language}")
             continue
+
+          notifier.notify_update(
+            prefix=prefix,
+            model=model.target_model,
+            scenario=scenario,
+            lang=language
+          )
 
           prompt = prompt_bank[language]
           print(f"{datetime.now().strftime('%m/%d/%Y %H:%M:%S')} [EXPERIMENT] Scenario: {scenario} | Language: {language}")
